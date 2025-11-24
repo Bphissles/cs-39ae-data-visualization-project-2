@@ -103,26 +103,8 @@ st.markdown("---")
 row1_col1, row1_col2 = st.columns(2)
 
 with row1_col1:
-    st.subheader("1. Salary by experience level (box plots)")
-    st.markdown(
-        "**Question:** How does salary vary by experience level, and is there evidence of drop-offs or plateaus as experience increases?"
-    )
-    st.markdown(
-        """
-        **How to read this chart**
-        - Each box shows the spread of salaries for one experience level (entry, mid, senior, executive).
-        - The horizontal line inside each box is the median salary for that group.
-        - The whiskers and dots show lower and higher salaries, including extreme values.
-        - Compare the height and position of boxes to see which levels typically earn more.
-
-        **What the data shows**
-        - Median salaries increase as experience level rises from entry to senior/executive.
-        - Senior and executive roles have much wider salary ranges, with some very high outliers.
-        - Entry-level salaries are more tightly clustered, with fewer extreme high values.
-        - There is some overlap between adjacent levels, but higher experience still shifts the whole box upward.
-        """
-    )
-
+    st.subheader("1. Salary by experience level")
+    
     fig = px.box(
         df_filtered,
         x="experience_level",
@@ -141,26 +123,16 @@ with row1_col1:
         hovermode="closest",
     )
     st.plotly_chart(fig, use_container_width=True)
-
-with row1_col2:
-    st.subheader("2. Distribution of salaries (histogram)")
-    st.markdown("**Question:** What does the overall distribution of salaries look like in this dataset?")
+    
     st.markdown(
         """
-        **How to read this chart**
-        - The x‑axis shows salary ranges in US dollars.
-        - The height of each bar shows how many records fall into that salary range.
-        - The dashed vertical line marks the median salary.
-        - Taller bars mean that salary range is more common.
-
-        **What the data shows**
-        - Most salaries cluster in a band well below the highest values in the dataset.
-        - The distribution is right‑skewed: a long tail of high salaries with relatively few people.
-        - The median salary sits to the left of the highest bars, reflecting the skew.
-        - Very high salaries exist but are rare compared to the main body of the distribution.
+        **Insight:** Median salaries rise consistently from entry-level to executive roles. However, senior positions exhibit significantly wider salary ranges and more extreme outliers compared to the tighter clustering seen in entry-level roles.
         """
     )
 
+with row1_col2:
+    st.subheader("2. Distribution of salaries")
+    
     fig = px.histogram(
         df_filtered,
         x="salary_in_usd",
@@ -186,29 +158,17 @@ with row1_col2:
     )
     st.plotly_chart(fig, use_container_width=True)
 
+    st.markdown(
+        """
+        **Insight:** The salary distribution is right-skewed, indicating that while most roles cluster around the median, there is a long tail of high-earning outliers that extend significantly beyond the typical range.
+        """
+    )
+
 row2_col1, row2_col2 = st.columns(2)
 
 with row2_col1:
-    st.subheader("3. Salary over time with median trend line")
-    st.markdown(
-        "**Question:** How has the typical (median) salary changed across the work years in this dataset?"
-    )
-    st.markdown(
-        """
-        **How to read this chart**
-        - Each point on the line is the median salary for a given work year.
-        - The x‑axis lists work years; the y‑axis shows median salary in US dollars.
-        - The line connects yearly medians so you can see the trend over time.
-        - Look at the slope of the line to see whether salaries are rising, falling, or flattening.
-
-        **What the data shows**
-        - Median salaries generally increase over the early years in the dataset.
-        - The rate of increase appears to slow in the most recent years rather than rising sharply.
-        - There is no sudden collapse in median salary; the pattern is gradual rather than volatile.
-        - Overall, the trend suggests steady growth with hints of flattening toward the end of the period.
-        """
-    )
-
+    st.subheader("3. Salary over time")
+    
     medians = (
         df_filtered
         .groupby("work_year")["salary_in_usd"]
@@ -234,27 +194,15 @@ with row2_col1:
     )
     st.plotly_chart(fig, use_container_width=True)
 
+    st.markdown(
+        """
+        **Insight:** Median salaries have shown a steady upward trend over the years, reflecting overall market growth, though the rate of increase appears to be stabilizing in the most recent data points.
+        """
+    )
+
 with row2_col2:
     st.subheader("4. Remote vs on-site roles in 2024")
-    st.markdown(
-        "**Question:** In 2024, how many roles are fully on‑site compared to fully remote?"
-    )
-    st.markdown(
-        """
-        **How to read this chart**
-        - The x‑axis shows two categories: 0 (fully on‑site) and 100 (fully remote).
-        - The height of each bar is the number of roles in that category for 2024.
-        - Compare the bar heights to see which working arrangement is more common.
-        - Hover over a bar to see the exact count.
-
-        **What the data shows**
-        - One working arrangement clearly has more roles than the other in 2024.
-        - The difference between the two bars captures how prevalent fully remote work is versus fully on‑site work.
-        - Even when one category dominates, the other still represents a meaningful portion of the dataset.
-        - This simple comparison sets up deeper questions about how remote status connects to salary and role type.
-        """
-    )
-
+    
     df_2024 = df_filtered[df_filtered["work_year"] == 2024]
     df_remote = df_2024[df_2024["remote_ratio"].isin([0, 100])].copy()
     counts = (
@@ -279,6 +227,13 @@ with row2_col2:
     )
     fig.update_layout(hovermode="x unified")
     st.plotly_chart(fig, use_container_width=True)
+
+    st.markdown(
+        """
+        **Insight:** In 2024, the data highlights a distinct split between fully remote and fully on-site roles, illustrating the continued prevalence and viability of remote work arrangements in the industry.
+        """
+    )
+
 st.markdown("---")
 st.markdown(
     """
