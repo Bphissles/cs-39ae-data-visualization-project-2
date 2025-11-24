@@ -240,7 +240,7 @@ st.markdown(
 ### Keep Exploring
 """
 )
-col_a, col_b, col_c, col_d = st.columns(4)
+col_a, col_b, col_c, col_d, col_e = st.columns(5)
 
 with col_a:
     st.page_link("Bio.py", icon="👤")
@@ -264,6 +264,13 @@ with col_d:
         "pages/3_Future_Work.py",
         label="Future Work",
         icon="🧭",
+    )
+
+with col_e:
+    st.page_link(
+        "pages/4_Network_Exploration.py",
+        label="Network Exploration",
+        icon="🕸️",
     )
 
 st.markdown("---")
